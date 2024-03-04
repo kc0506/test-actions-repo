@@ -17,9 +17,17 @@ jobs:
       
       - run: echo ${{ steps.extract-version.outputs.version }} > version
 
-      - run: |
-          git config --global user.name 'kc0506'
-          git config --global user.email 'kchong0506@gmail.com'
-          git add .
-          git commit -am "Automated report"
-          git push
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          VERSION: ${{ steps.extract-version.outputs.version }}
+        with:
+          tag_name: $VERSION
+          release_name: Release $VERSIon
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
