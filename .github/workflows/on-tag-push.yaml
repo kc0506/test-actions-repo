@@ -7,6 +7,29 @@ on:
 
 
 jobs:
+  get-and-validate-version:
+    runs-on: ubuntu-latest
+    steps:
+      - run: sudo apt install jq
+
+      - uses: actions/checkout@v2
+      - id: next-version
+        run: echo version=$(jq -r < manifest.json ".version") > $GITHUB_OUTPUT
+
+      
+      - run: git checkout HEAD^
+      - id: prev-version
+        run: echo version=$(jq -r < manifest.json ".version") > $GITHUB_OUTPUT
+      
+
+      - if: ${{ steps.next-version.outputs.version == steps.prev-version.outputs.version }}
+        uses: actions/github-script@v3
+        env: 
+          VERSION: ${{ steps.next-version.outputs.version }}
+        with:
+          script: |
+              core.setFailed('Version ${{ env.VERSION }} already released.')    
+
   create-tag-and-release:
     permissions: 
       contents:
