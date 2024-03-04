@@ -15,7 +15,7 @@ jobs:
       - id: extract-version
         run: echo version=$(jq -r < manifest.json ".version") > $GITHUB_OUTPUT
       
-      - run: echo ${{ steps.extract-version.outputs.version }}
+      - run: echo ${{ steps.extract-version.outputs.version }} > version
 
       - run: |
           git config --global user.name 'kc0506'
