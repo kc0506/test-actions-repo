@@ -6,7 +6,9 @@ on:
       - "production"
 
 jobs:
-  job1:
+  create-tag-and-release:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "hello world!"
+      - uses: actions/checkout@v2
+      - run: apt install jq
+      - run: jq < manifest.json ".version"
