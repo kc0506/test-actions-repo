@@ -5,8 +5,59 @@ on:
     branches:
       - "production"
 
+
 jobs:
-  job1:
+  get-and-validate-version:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "hello world!"
+      - run: sudo apt install jq
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      
+      - id: next-version
+        run: echo version=$(jq -r < manifest.json ".version") > $GITHUB_OUTPUT
+
+      
+      - run: git checkout HEAD^
+      - id: prev-version
+        run: echo version=$(jq -r < manifest.json ".version") > $GITHUB_OUTPUT
+      
+
+      - if: ${{ steps.next-version.outputs.version == steps.prev-version.outputs.version }}
+        uses: actions/github-script@v3
+        env: 
+          VERSION: ${{ steps.next-version.outputs.version }}
+        with:
+          script: |
+              core.setFailed('Version ${{ env.VERSION }} already released.')    
+
+  create-tag-and-release:
+    permissions: 
+      contents:
+        write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: sudo apt install jq
+      - id: extract-version
+        run: echo version=$(jq -r < manifest.json ".version") > $GITHUB_OUTPUT
+      
+      - run: echo ${{ steps.extract-version.outputs.version }} > version
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          VERSION: ${{ steps.extract-version.outputs.version }}
+        with:
+          tag_name: ${{ env.VERSION }}
+          release_name: Release ${{ env.VERSION }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
