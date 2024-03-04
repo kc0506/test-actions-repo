@@ -1,0 +1,10 @@
+name: On tag push
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  job1:
+    - run: "echo helloworld"
