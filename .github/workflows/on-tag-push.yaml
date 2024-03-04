@@ -16,4 +16,9 @@ jobs:
         run: echo version=$(jq -r < manifest.json ".version") > $GITHUB_OUTPUT
       
       - run: echo ${{ steps.extract-version.outputs.version }}
-  
+
+      - run: |
+          git config --global user.name 'kc0506'
+          git config --global user.email 'kchong0506@gmail.com'
+          git commit -am "Automated report"
+          git push
