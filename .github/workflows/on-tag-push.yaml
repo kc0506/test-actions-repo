@@ -1,9 +1,9 @@
-name: On tag push
+name: Update Chrome Extension
 
 on:
   push:
-    tags:
-      - v*.*.*
+    branches:
+      - "production"
 
 jobs:
   job1:
