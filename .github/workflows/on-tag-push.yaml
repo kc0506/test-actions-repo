@@ -5,8 +5,12 @@ on:
     branches:
       - "production"
 
+
 jobs:
   create-tag-and-release:
+    permissions: 
+      contents:
+        write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
