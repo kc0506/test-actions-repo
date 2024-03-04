@@ -27,8 +27,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
           VERSION: ${{ steps.extract-version.outputs.version }}
         with:
-          tag_name: $VERSION
-          release_name: Release $VERSIon
+          tag_name: ${{ env.VERSION }}
+          release_name: Release ${{ env.VERSION }}
           body: |
             Changes in this Release
             - First Change
