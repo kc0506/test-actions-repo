@@ -10,5 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: apt install jq
+      - run: sudo apt install jq
       - run: jq < manifest.json ".version"
