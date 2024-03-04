@@ -10,5 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - run: sudo apt install jq
-      - run: jq < manifest.json ".version"
+      - name: extract-version
+        run: echo version=$(jq -r < manifest.json ".version") > $GITHUB_OUTPUT
+      
+      - run: echo ${{ steps.extract-version.outputs.version }}
+  
