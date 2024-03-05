@@ -1,4 +1,4 @@
-name: Update Chrome Extension
+name: Test
 
 on:
   push:
