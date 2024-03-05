@@ -7,6 +7,10 @@ on:
 
 jobs:
   get-and-validate-version:
+    # We ignore the case of initial commit or no manifest.json in this job :P
+
+    env:
+      MANIFEST: "./manifest.json"
     runs-on: ubuntu-latest
     steps:
       - run: sudo apt install jq
@@ -16,11 +20,11 @@ jobs:
           fetch-depth: 2
       
       - id: next-version
-        run: echo version=$(jq -r < manifest.json ".version") > $GITHUB_OUTPUT
+        run: echo version=$(jq -r < ${{ env.MANIFEST }} ".version") > $GITHUB_OUTPUT
 
       - run: git checkout HEAD^
       - id: prev-version
-        run: echo version=$(jq -r < manifest.json ".version") > $GITHUB_OUTPUT
+        run: echo version=$(jq -r < ${{ env.MANIFEST }} ".version") > $GITHUB_OUTPUT
 
       - if: ${{ steps.next-version.outputs.version == steps.prev-version.outputs.version }}
         uses: actions/github-script@v7
@@ -40,7 +44,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create Release
-        uses: actions/create-release@v1
+        # Ignore duplicate tag
+        uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
           VERSION: ${{ needs.get-and-validate-version.outputs.version }}

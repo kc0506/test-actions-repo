@@ -1,0 +1,14 @@
+name: Update Chrome Extension
+
+on:
+  push:
+    branches:
+      - "production"
+
+jobs:
+  get-and-validate-version:
+    runs-on: ubuntu-latest
+    steps:
+      - id: echo-1
+        uses: "./echo-1.yaml"
+      - run: echo ${{ steps.echo-1.outputs.result }}
