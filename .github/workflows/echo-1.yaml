@@ -1,4 +1,4 @@
-
+name: Echo 1
 on: workflow_call
 
 jobs:
