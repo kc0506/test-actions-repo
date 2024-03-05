@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: ls -al
+      - run: ls /home/runner/work/test-actions-repo/test-actions-repo/.github/workflows/echo-1.yaml
       - id: echo-1
         uses: ./.github/workflows/echo-1.yaml
       - run: echo ${{ steps.echo-1.outputs.result }}
