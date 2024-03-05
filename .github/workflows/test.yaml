@@ -11,7 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: ls
-
       - id: echo-1
         uses: ./.github/workflows/echo-1.yaml
       - run: echo ${{ steps.echo-1.outputs.result }}
