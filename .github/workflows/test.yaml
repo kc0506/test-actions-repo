@@ -13,3 +13,4 @@ jobs:
       - id: echo-1
         uses: "./echo-1.yaml"
       - run: echo ${{ steps.echo-1.outputs.result }}
+
