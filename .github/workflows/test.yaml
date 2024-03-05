@@ -8,12 +8,6 @@ on:
       - "production"
 
 jobs:
-  get-and-validate-version:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: ls /home/runner/work/test-actions-repo/test-actions-repo/.github/workflows/echo-1.yaml
-      - id: echo-1
-        uses: ntu-grade-viewer/test-actions-repo/.github/workflows/echo-1.yaml
-      - run: echo ${{ steps.echo-1.outputs.result }}
+  echo-1:
+    uses: .//.github/workflows/echo-1.yaml
 
