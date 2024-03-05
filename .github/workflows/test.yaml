@@ -9,7 +9,7 @@ jobs:
   get-and-validate-version:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - id: echo-1
         uses: "./echo-1.yaml"
       - run: echo ${{ steps.echo-1.outputs.result }}
-      
