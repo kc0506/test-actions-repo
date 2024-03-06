@@ -10,9 +10,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       # - run: echo ${{ github.event.pull_request.id }}
       # - run: echo ${{ github.event.pull_request.issue_url }}
-      - uses: ./.github/actions/action.yaml
+      - uses: ./.github/actions/get-env
         
       
 
