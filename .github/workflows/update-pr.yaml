@@ -1,0 +1,63 @@
+name: Update PR
+
+on: 
+  pull_request:
+    branches: main
+    types: ['opened', 'reopened', 'synchronize', 'closed']
+# on: push
+  # push:
+  #   branches:
+  #     - "production"
+
+# ? You cannot access `env` in job-level `if` QQ
+# env: 
+#   MERGED: ${{ github.event.action == 'closed' && github.event.pull_request.merged}} 
+  
+jobs:
+  update-pr-body:
+    if: ${{ github.event.action != 'closed' }} 
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: pip install PyGithub
+      - run: python3 update_pr.py
+        env: 
+          TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          ACTION: 'body'
+
+      - run: echo ${{ github.event.action }}
+
+  # get-extension-version:
+  #   if: ${{ github.event.action == 'closed' && github.event.pull_request.merged}} 
+  #   uses: ./.github/workflows/get-version.yaml
+  #   with: 
+  #     check-no-same-version: false
+    # uses: ./get-version.yaml
+  
+  update-pr-title:
+    if: ${{ github.event.action == 'closed' && github.event.pull_request.merged}} 
+    runs-on: ubuntu-latest
+    # needs: [get-extension-version]
+    steps:
+      - uses: actions/checkout@v4
+      - id: get-version
+        uses: ./.github/actions/get-extension-version
+        with:
+          manifest: ./manifest.json
+
+      - run: pip install PyGithub
+      - run: python3 update_pr.py
+        env: 
+          TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          ACTION: 'title'
+          VERSION: ${{ steps.get-version.outputs.version }}
+
+
+  
+        
+      
+

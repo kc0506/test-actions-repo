@@ -1,6 +1,8 @@
 name: Test
 
-on: pull_request
+# on: pull_request
+on: push
+
   # push:
   #   branches:
   #     - "production"
@@ -9,7 +11,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event.pull_request.id }}
-      - run: echo ${{ github.event.pull_request.issue_url }}
+      - uses: actions/checkout@v4
+      # - run: echo ${{ github.event.pull_request.id }}
+      # - run: echo ${{ github.event.pull_request.issue_url }}
+      - uses: ./.github/actions/get-env
+        with: 
+          env-base64: Rk9PPWJhcg==
+      - run: ls -al
+      - run: cat .env
+        
+
       
 
