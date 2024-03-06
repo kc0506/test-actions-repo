@@ -3,7 +3,7 @@ name: Update Chrome Extension
 on:
   push:
     branches:
-      - "production"
+      - extension
 
 jobs:
   get-and-validate-version:
@@ -11,20 +11,24 @@ jobs:
 
     env:
       MANIFEST: "./manifest.json"
+      GET-VERSION: ""
     runs-on: ubuntu-latest
     steps:
-      - run: sudo apt install jq
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
       
       - id: next-version
-        run: echo version=$(jq -r < ${{ env.MANIFEST }} ".version") > $GITHUB_OUTPUT
+        uses: ./.github/actions/get-extension-version
+        with:
+          manifest: ${{ env.MANIFEST }}
 
+      # ! This may crash if action is modified? 🙃
       - run: git checkout HEAD^
       - id: prev-version
-        run: echo version=$(jq -r < ${{ env.MANIFEST }} ".version") > $GITHUB_OUTPUT
+        uses: ./.github/actions/get-extension-version
+        with:
+          manifest: ${{ env.MANIFEST }}
 
       - if: ${{ steps.next-version.outputs.version == steps.prev-version.outputs.version }}
         uses: actions/github-script@v7

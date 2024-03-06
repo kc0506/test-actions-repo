@@ -23,7 +23,7 @@ def section(title: str, body: list[str]):
 
 match action:
     case "title":
-        pr.edit(title=f"v${version} release")
+        pr.edit(title=f"v{version} release")
         pr.update()
         print(version)
     case "body":
