@@ -9,6 +9,7 @@ if not token:
     token = token_path.open().read()
 pr_number = int(os.getenv("PR", "5"))
 action = os.getenv("ACTION", "")
+version = os.getenv("VERSION", "")
 
 auth = Auth.Token(token)
 g = Github(auth=auth)
@@ -24,6 +25,7 @@ match action:
     case "title":
         pr.edit(title="")
         pr.update()
+        print(version)
     case "body":
         body = (pr.body or "") + section(
             "Commit messages (auto-generated)",
