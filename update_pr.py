@@ -7,6 +7,7 @@ token_path = Path(__file__).parent / "../token"
 # token = token_path.open().read()
 token = os.getenv("TOKEN", "")
 pr_number = int(os.getenv("PR", "-1"))
+print(pr_number)
 
 auth = Auth.Token(token)
 
