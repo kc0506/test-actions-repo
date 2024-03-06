@@ -3,6 +3,7 @@ name: Update PR
 on: 
   pull_request:
     branches: main
+    types: ['opened', 'reopened', 'synchronize', 'closed']
 # on: push
   # push:
   #   branches:
@@ -16,7 +17,8 @@ jobs:
       - uses: actions/checkout@v4
 
       - run: pip install PyGithub
-      - run: python3 update_pr.py
+      - if: ${{ github.event.action != 'closed' }}
+        run: python3 update_pr.py
         env: 
           TOKEN: ${{ github.token }}
           PR: ${{ github.event.pull_request.number }}

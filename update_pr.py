@@ -19,7 +19,6 @@ def section(title: str, body: list[str]):
     return f"\n## {title}\n" + "\n".join(["- " + s for s in body])
 
 
-
 body = pr.body + section(
     "Commit messages (auto-generated)", [commit.commit.message for commit in pr.get_commits()]
 )
