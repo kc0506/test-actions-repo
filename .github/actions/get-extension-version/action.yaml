@@ -1,0 +1,30 @@
+name: 'Get Extension Version'
+description: 'Get the version of extension'
+
+inputs:
+  manifest:
+    description: 'path of manifest.json'
+    required: true
+
+outputs:
+  version:
+    description: 'the version of extension'
+    value: ${{ steps.get-version.outputs.version }}
+
+runs:
+  using: "composite"
+  steps:
+    - run: pip install PyGithub
+      shell: bash
+    - run: python3 ${{ github.action_path }}/update_pr.py
+      shell: bash
+      env:
+        TOKEN: ${{ github.token }}
+
+    - run: sudo apt install jq
+      shell: bash
+
+    - id: get-version
+      run: echo version=$(jq -r < ${{ env.MANIFEST }} ".version") > $GITHUB_OUTPUT
+      shell: bash
+      
