@@ -1,13 +1,15 @@
 name: Test
 
-
-
-on:
-  push:
-    branches:
-      - "production"
+on: pull_request
+  # push:
+  #   branches:
+  #     - "production"
 
 jobs:
-  echo-1:
-    uses: ./.github/workflows/echo-1.yaml
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.event.pull_request.id }}
+      - run: echo ${{ github.event.pull_request.issue_url }}
+      
 
