@@ -12,6 +12,6 @@ description: 'Recover .env from secrets'
 runs:
   using: "composite"
   steps:
-    - run: echo ${{}}
+    - run: echo ${{ secrets.TEST }}
       shell: bash
       
