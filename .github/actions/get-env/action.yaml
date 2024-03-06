@@ -2,7 +2,7 @@ name: 'Get .env'
 description: 'Recover .env from secrets'
 inputs:
   env-base64: 
-    description: 'Who to greet'
+    description: 'Base64 encoded .env file'
     required: true
 # outputs:
   # random-number:
@@ -11,6 +11,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: echo ${{ inputs.env-base64 }}
+    - run: echo ${{ inputs.env-base64 }} > .env
       shell: bash
       

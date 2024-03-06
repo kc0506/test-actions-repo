@@ -16,6 +16,7 @@ jobs:
       - uses: ./.github/actions/get-env
         with: 
           env-base64: 1234jj
+      - run: ls -al
         
       
 
