@@ -16,12 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: pip install PyGithub
+      # If not closed, then update body
+      - if: ${{ github.event.action != 'closed' }} 
+        run: pip install PyGithub
       - if: ${{ github.event.action != 'closed' }}
         run: python3 update_pr.py
         env: 
           TOKEN: ${{ github.token }}
           PR: ${{ github.event.pull_request.number }}
+
+      # For merged event
       - run: echo ${{ github.event.action }}
         
       
