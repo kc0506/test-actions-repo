@@ -1,9 +1,12 @@
-
+import os
 from pathlib import Path
-from github import Github,Auth
 
-token_path = Path(__file__).parent/"../token" 
-auth = Auth.Token(token_path.open().read())
+from github import Auth, Github
+
+token_path = Path(__file__).parent / "../token"
+# token = token_path.open().read()
+token = os.getenv("TOKEN", "")
+auth = Auth.Token(token)
 
 g = Github(auth=auth)
 

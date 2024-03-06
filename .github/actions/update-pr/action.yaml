@@ -1,0 +1,14 @@
+name: 'Update PR'
+description: 'Update PR body by commits'
+
+runs:
+  using: "composite"
+  steps:
+    - run: pip install PyGithub
+      shell: bash
+    - run: python3 ${{ github.action_path }}/update_pr.py
+      shell: bash
+      env:
+        TOKEN: ${{ github.token }}
+
+      
