@@ -3,7 +3,7 @@ name: Update Chrome Extension
 on:
   push:
     branches:
-      - "extension"
+      - extension
 
 jobs:
   get-and-validate-version:
