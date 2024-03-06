@@ -1,4 +1,3 @@
-
 import os
 from pathlib import Path
 
@@ -14,8 +13,12 @@ version = os.getenv("VERSION", "")
 
 auth = Auth.Token(token)
 g = Github(auth=auth)
-repo = g.get_repo("ntu-grade-viewer/test-actions-repo")
-pr = repo.get_pull(pr_number)
+# print(g.get_user().name)
+
+repo = g.get_repo("kc0506/test-actions-repo")
+pr = repo.get_pull(4)
+print(pr.mergeable_state)
+exit(0)
 
 
 def section(title: str, body: list[str]):

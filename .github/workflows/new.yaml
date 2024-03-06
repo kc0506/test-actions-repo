@@ -6,6 +6,7 @@ jobs:
   new-job:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "::warning file=manifest.json,line=10,col=5::Code formatting issues detected"
       - run: echo ${{ github.ref_name }}
       - run: echo ${{ github.base_ref }}
       - run: echo ${{ github.action_path }}
