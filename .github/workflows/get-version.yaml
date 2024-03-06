@@ -2,9 +2,13 @@ name: Get Extension Version
 on: 
   workflow_call:
     inputs:
-      check_no_same_version: 
+      check-no-same-version: 
         type: boolean
         description: 'if true, then the version of extension must not equal to previous version.' 
+    outputs:
+      version:
+        description: 'version of extension'
+        value: ${{ jobs.get-and-validate-version.outputs.version }}
 
 jobs:
   get-and-validate-version:
@@ -27,7 +31,7 @@ jobs:
         run: echo version=$(jq -r < ${{ env.MANIFEST }} ".version") > $GITHUB_OUTPUT
 
       - if: | 
-          ${{ !inputs.check_no_same_version }} ||
+          ${{ !inputs.check-no-same-version }} ||
           ${{ steps.next-version.outputs.version == steps.prev-version.outputs.version }}
         uses: actions/github-script@v7
         env: 

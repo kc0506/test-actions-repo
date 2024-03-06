@@ -9,24 +9,50 @@ on:
   #   branches:
   #     - "production"
 
+# ? You cannot access `env` in job-level `if` QQ
+# env: 
+#   MERGED: ${{ github.event.action == 'closed' && github.event.pull_request.merged}} 
+  
 jobs:
-  update-pr:
+  update-pr-body:
+    if: ${{ github.event.action != 'closed' }} 
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      # If not closed, then update body
-      - if: ${{ github.event.action != 'closed' }} 
-        run: pip install PyGithub
-      - if: ${{ github.event.action != 'closed' }}
-        run: python3 update_pr.py
+      - run: pip install PyGithub
+      - run: python3 update_pr.py
         env: 
           TOKEN: ${{ github.token }}
           PR: ${{ github.event.pull_request.number }}
+          ACTION: 'body'
 
-      # For merged event
       - run: echo ${{ github.event.action }}
+
+  get-extension-version:
+    if: ${{ github.event.action == 'closed' && github.event.pull_request.merged}} 
+    uses: ./.github/workflows/get-version.yaml
+    with: 
+      check-no-same-version: false
+    # uses: ./get-version.yaml
+  
+  update-pr-title:
+    if: ${{ github.event.action == 'closed' && github.event.pull_request.merged}} 
+    runs-on: ubuntu-latest
+    needs: [get-extension-version]
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: pip install PyGithub
+      - run: python3 update_pr.py
+        env: 
+          TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          ACTION: 'title'
+
+
+  
         
       
 

@@ -8,7 +8,7 @@ token = os.getenv("TOKEN")
 if not token:
     token = token_path.open().read()
 pr_number = int(os.getenv("PR", "5"))
-action = os.getenv("INPUT_ACTION", "")
+action = os.getenv("ACTION", "")
 
 auth = Auth.Token(token)
 g = Github(auth=auth)
@@ -21,8 +21,9 @@ def section(title: str, body: list[str]):
 
 
 match action:
-    case 'title':
-        pr.edit(title="") 
+    case "title":
+        pr.edit(title="")
+        pr.update()
     case "body":
         body = (pr.body or "") + section(
             "Commit messages (auto-generated)",
