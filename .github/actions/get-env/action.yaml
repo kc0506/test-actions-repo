@@ -4,6 +4,9 @@ inputs:
   env-base64: 
     description: 'Base64 encoded .env file'
     required: true
+  output-path:
+    description: 'Output path for .env'
+    default: './.env'
 # outputs:
   # random-number:
   #   description: "Random number"
@@ -11,6 +14,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: echo ${{ inputs.env-base64 }} > .env
+    - run: echo ${{ inputs.env-base64 }} > ${{ inputs.output-path }}
       shell: bash
       

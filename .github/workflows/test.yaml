@@ -17,6 +17,7 @@ jobs:
         with: 
           env-base64: 1234jj
       - run: ls -al
+      - run: cat .env
         
       
 
