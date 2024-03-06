@@ -39,6 +39,7 @@ jobs:
   
   update-pr-title:
     if: ${{ github.event.action == 'closed' && github.event.pull_request.merged}} 
+    permissions: write-all
     runs-on: ubuntu-latest
     # needs: [get-extension-version]
     steps:
