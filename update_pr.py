@@ -19,12 +19,11 @@ def section(title: str, body: list[str]):
     return f"\n## {title}\n" + "\n".join(["- " + s for s in body])
 
 
-body = pr.body + section(
+body = (pr.body or "") + section(
     "Commit messages (auto-generated)", [commit.commit.message for commit in pr.get_commits()]
 )
 
 pr.edit(body=body)
 pr.update()
-pr.create_issue_comment("New issue")
 
 g.close()
