@@ -8,18 +8,24 @@ token = os.getenv("TOKEN")
 if not token:
     token = token_path.open().read()
 pr_number = int(os.getenv("PR", "5"))
-print(pr_number)
 
 auth = Auth.Token(token)
-
 g = Github(auth=auth)
-
 repo = g.get_repo("ntu-grade-viewer/test-actions-repo")
 pr = repo.get_pull(pr_number)
-body = pr.body + "\n".join([commit.commit.message for commit in pr.get_commits()])
+
+
+def section(title: str, body: list[str]):
+    return f"## {title}\n" + "\n".join(["- " + s for s in body])
+
+
+
+body = pr.body + section(
+    "Commit messages (auto-generated)", [commit.commit.message for commit in pr.get_commits()]
+)
+
 pr.edit(body=body)
 pr.update()
-
 pr.create_issue_comment("New issue")
 
 g.close()
