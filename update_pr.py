@@ -3,10 +3,11 @@ from pathlib import Path
 
 from github import Auth, Github
 
-token_path = Path(__file__).parent / "../token"
-# token = token_path.open().read()
-token = os.getenv("TOKEN", "")
-pr_number = int(os.getenv("PR", "-1"))
+token_path = Path(__file__).parent / ".github/token"
+token = os.getenv("TOKEN")
+if not token:
+    token = token_path.open().read()
+pr_number = int(os.getenv("PR", "5"))
 print(pr_number)
 
 auth = Auth.Token(token)
@@ -14,10 +15,11 @@ auth = Auth.Token(token)
 g = Github(auth=auth)
 
 repo = g.get_repo("ntu-grade-viewer/test-actions-repo")
-pull = repo.get_pull(pr_number)
-pull.edit(body="Updated")
-pull.update()
-commit = pull.get_commits()[0]
-print(commit.commit.message)
+pr = repo.get_pull(pr_number)
+body = pr.body + "\n".join([commit.commit.message for commit in pr.get_commits()])
+pr.edit(body=body)
+pr.update()
+
+pr.create_issue_comment("New issue")
 
 g.close()
