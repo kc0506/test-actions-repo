@@ -16,7 +16,7 @@ pr = repo.get_pull(pr_number)
 
 
 def section(title: str, body: list[str]):
-    return f"## {title}\n" + "\n".join(["- " + s for s in body])
+    return f"\n## {title}\n" + "\n".join(["- " + s for s in body])
 
 
 
