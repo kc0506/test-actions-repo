@@ -2,6 +2,7 @@ name: Test
 
 # on: pull_request
 on: push
+
   # push:
   #   branches:
   #     - "production"
@@ -19,5 +20,6 @@ jobs:
       - run: ls -al
       - run: cat .env
         
+
       
 
