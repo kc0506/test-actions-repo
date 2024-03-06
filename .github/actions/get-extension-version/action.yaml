@@ -14,7 +14,7 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: sudo apt install jq
+    - run: sudo apt-get install jq
       shell: bash
 
     - id: get-version
