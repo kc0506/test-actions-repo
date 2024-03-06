@@ -14,17 +14,10 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: pip install PyGithub
-      shell: bash
-    - run: python3 ${{ github.action_path }}/update_pr.py
-      shell: bash
-      env:
-        TOKEN: ${{ github.token }}
-
     - run: sudo apt install jq
       shell: bash
 
     - id: get-version
-      run: echo version=$(jq -r < ${{ env.MANIFEST }} ".version") > $GITHUB_OUTPUT
+      run: echo version=$(jq -r < ${{ inputs.manifest }} ".version") > $GITHUB_OUTPUT
       shell: bash
       
