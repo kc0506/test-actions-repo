@@ -15,7 +15,7 @@ jobs:
       # - run: echo ${{ github.event.pull_request.issue_url }}
       - uses: ./.github/actions/get-env
         with: 
-          env-base64: 1234jj
+          env-base64: Rk9PPWJhcg==
       - run: ls -al
       - run: cat .env
         

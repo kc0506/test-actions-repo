@@ -7,13 +7,10 @@ inputs:
   output-path:
     description: 'Output path for .env'
     default: './.env'
-# outputs:
-  # random-number:
-  #   description: "Random number"
-  #   value: ${{ steps.random-number-generator.outputs.random-number }}
+
 runs:
   using: "composite"
   steps:
-    - run: echo ${{ inputs.env-base64 }} > ${{ inputs.output-path }}
+    - run: echo ${{ inputs.env-base64 }} base64 --decode > ${{ inputs.output-path }}
       shell: bash
       
