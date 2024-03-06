@@ -9,6 +9,7 @@ jobs:
       - run: echo ${{ github.ref_name }}
       - run: echo ${{ github.base_ref }}
       - run: echo ${{ github.action_path }}
+      - uses: actions/checkout@v4
       - id: get-version
         uses: ./.github/actions/get-extension-version
       - run: echo ${{ steps.get-version.outputs.version }}
