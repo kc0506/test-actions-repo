@@ -1,7 +1,7 @@
 name: Update PR
 
-# on: pull_request
-on: push
+on: pull_request
+# on: push
   # push:
   #   branches:
   #     - "production"
@@ -16,6 +16,7 @@ jobs:
       - run: python3 update_pr.py
         env: 
           TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
         
       
 
